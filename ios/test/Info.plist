@@ -2,6 +2,29 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+
+<!-- ✅ Google Sign-In configuration -->
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleTypeRole</key>
+    <string>Editor</string>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <!-- 👇 Use your REVERSED_CLIENT_ID here -->
+      <string>com.googleusercontent.apps.776795403659-uc0t3b2e85pj87jiq4qhtf4ncnk4kscu</string>
+	  <string>com.googleusercontent.apps.776795403659-nal87miqt000vfoun2vcv7tf4rlkrsq9</string>
+    </array>
+  </dict>
+</array>
+
+<!-- ✅ Allow Google Sign-In URL handling -->
+<!-- <key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>google</string>
+  <string>com.googleusercontent.apps.776795403659-uc0t3b2e85pj87jiq4qhtf4ncnk4kscu</string>
+</array> -->
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

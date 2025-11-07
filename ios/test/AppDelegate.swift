@@ -2,10 +2,17 @@ import UIKit
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
+import Firebase // for firebase initializtion
+import GoogleSignIn // for google signing firebase
+
 
 @main
 class AppDelegate: RCTAppDelegate {
   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    
+//    firebase initialized
+    FirebaseApp.configure()
+    
     self.moduleName = "test"
     self.dependencyProvider = RCTAppDependencyProvider()
 
@@ -14,6 +21,18 @@ class AppDelegate: RCTAppDelegate {
     self.initialProps = [:]
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+  
+  // ✅ Add this method to handle Google Sign-In redirect URL
+  override func application(
+    _ app: UIApplication,
+    open url: URL,
+    options: [UIApplication.OpenURLOptionsKey : Any] = [:]
+  ) -> Bool {
+    if GIDSignIn.sharedInstance.handle(url) {
+      return true
+    }
+    return super.application(app, open: url, options: options)
   }
 
   override func sourceURL(for bridge: RCTBridge) -> URL? {

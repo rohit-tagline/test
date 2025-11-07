@@ -1,0 +1,13 @@
+{
+  "title": "Localization Demo",
+  "description": "Change the app language below. Arabic is right-to-left.",
+  "chooseLanguage": "Choose Language",
+  "english": "English",
+  "hindi": "Hindi",
+  "arabic": "Arabic",
+  "systemDefault": "Use System Default",
+  "apply": "Apply",
+  "sampleParagraph": "This is a sample paragraph demonstrating localization in the app."
+}
+
+

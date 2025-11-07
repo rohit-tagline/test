@@ -1,0 +1,11 @@
+{
+  "title": "عرض الترجمة",
+  "description": "تغيير اللغة",
+  "chooseLanguage": "اختر اللغة",
+  "english": "الإنجليزية",
+  "hindi": "الهندية",
+  "arabic": "العربية",
+  "systemDefault": "استخدام لغة النظام",
+  "sampleTitle": "نص تجريبي",
+  "sampleParagraph": "هذه فقرة تجريبية لعرض الترجمة داخل التطبيق."
+}

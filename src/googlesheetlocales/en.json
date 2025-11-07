@@ -1,0 +1,11 @@
+{
+  "title": "Localization Demo",
+  "description": "Change language below",
+  "chooseLanguage": "Choose Language",
+  "english": "English",
+  "hindi": "Hindi",
+  "arabic": "Arabic",
+  "systemDefault": "Use System Default",
+  "sampleTitle": "sample Paragraph",
+  "sampleParagraph": "This is a sample paragraph demonstrating localization in the app."
+}
