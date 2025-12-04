@@ -15,7 +15,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {Dropdown} from 'react-native-element-dropdown';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {updateStep1} from '../../store/formSlice';
+import {updateStep1} from '../../reduxstore/formSlice';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const genderOptions = [

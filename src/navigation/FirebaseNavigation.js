@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import FirebaseLoginScreen from '../screens/FirebaseLoginScreen';
-import FirebaseSignUpScreen from '../screens/FirebaseSignUpScreen';
+import FirebaseLoginScreen from '../screens/FirebaseLogindemo/FirebaseLoginScreen';
+import FirebaseSignUpScreen from '../screens/FirebaseLogindemo/FirebaseSignUpScreen';
 
 const Stack = createStackNavigator();
 

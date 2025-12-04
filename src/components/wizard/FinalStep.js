@@ -11,9 +11,9 @@ import {
   Image,
 } from 'react-native';
 import {useSelector} from 'react-redux';
-import {resetForm} from '../../store/formSlice';
+import {resetForm} from '../../reduxstore/formSlice';
 import {useDispatch} from 'react-redux';
-import {updatecurrentstep} from '../../store/formSlice';
+import {updatecurrentstep} from '../../reduxstore/formSlice';
 
 const FinalStep = ({resetForm: handleResetProp}) => {
   const dispatch = useDispatch();

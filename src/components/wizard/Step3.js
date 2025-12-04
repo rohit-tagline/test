@@ -15,7 +15,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {Dropdown} from 'react-native-element-dropdown';
 import {MultiSelect} from 'react-native-element-dropdown';
-import {updateStep3} from '../../store/formSlice';
+import {updateStep3} from '../../reduxstore/formSlice';
 
 const Step3 = ({next, prev}) => {
   const dispatch = useDispatch();

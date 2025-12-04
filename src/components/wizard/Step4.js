@@ -14,7 +14,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {Calendar} from 'react-native-calendars';
 import Slider from '@react-native-community/slider';
-import {updateStep4} from '../../store/formSlice';
+import {updateStep4} from '../../reduxstore/formSlice';
 
 const Step4 = ({next, prev}) => {
   const dispatch = useDispatch();

@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Dropdown} from 'react-native-element-dropdown';
-import {updateStep2} from '../../store/formSlice';
+import {updateStep2} from '../../reduxstore/formSlice';
 
 const Step2 = ({next, prev}) => {
   const dispatch = useDispatch();
