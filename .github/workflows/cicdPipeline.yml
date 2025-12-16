@@ -56,7 +56,7 @@ jobs:
 
       # ---------- UPLOAD APK ----------
       - name: Upload APK to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v4
+        uses: wzieba/Firebase-Distribution-Github-Action@v3
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           testers: ${{ secrets.FIREBASE_TESTERS }}
@@ -64,7 +64,7 @@ jobs:
 
       # ---------- UPLOAD AAB ----------
       - name: Upload AAB to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v4
+        uses: wzieba/Firebase-Distribution-Github-Action@v3
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           testers: ${{ secrets.FIREBASE_TESTERS }}
