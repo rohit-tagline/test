@@ -1,19 +1,19 @@
-name: Android CI Build
+name: Android CI Delivery (APK + AAB + Artifacts + Firebase)
 
 on:
   push:
     branches: ["main"]
 
 jobs:
-  android-build:
+  android-delivery:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "18"
 
@@ -23,13 +23,49 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x android/gradlew
 
+      # ---------- BUILD APK ----------
       - name: Build Release APK
         run: |
           cd android
           ./gradlew assembleRelease
 
-      - name: Upload Release APK
+      # ---------- BUILD AAB ----------
+      - name: Build Release AAB
+        run: |
+          cd android
+          ./gradlew bundleRelease
+
+      # ---------- UPLOAD ARTIFACTS ----------
+      - name: Upload Release APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
           path: android/app/build/outputs/apk/release/app-release.apk
+
+      - name: Upload Release AAB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: android/app/build/outputs/bundle/release/app-release.aab
+
+      # ---------- FIREBASE AUTH ----------
+      - name: Authenticate with Firebase (Service Account)
+        run: |
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" | base64 --decode > service-account.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/service-account.json" >> $GITHUB_ENV
+
+      # ---------- UPLOAD APK ----------
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v2
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          testers: ${{ secrets.FIREBASE_TESTERS }}
+          file: android/app/build/outputs/apk/release/app-release.apk
+
+      # ---------- UPLOAD AAB ----------
+      - name: Upload AAB to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v2
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          testers: ${{ secrets.FIREBASE_TESTERS }}
+          file: android/app/build/outputs/bundle/release/app-release.aab
