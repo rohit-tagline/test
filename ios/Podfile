@@ -10,7 +10,7 @@ prepare_react_native_project!
 
 # Use static frameworks to support Swift Firebase pods cleanly
 use_frameworks! :linkage => :static
-
+  $RNFirebaseAsStaticFramework = true
 
 
 target 'test' do

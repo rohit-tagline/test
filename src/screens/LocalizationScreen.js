@@ -104,7 +104,7 @@ const LocalizationScreen = () => {
         </TouchableOpacity>
 
         <View style={styles.card} >
-          <Text style={styles.cardTitle}>{t('preview', { defaultValue: 'Preview' })}</Text>
+          <Text style={styles.cardTitle}>{t('How it Works')}</Text>
           <Text style={styles.paragraph}>{t('sampleParagraph')}</Text>
           <View style={styles.infoBadge}>
             <Text style={styles.meta}>

@@ -1,11 +1,11 @@
 {
-  "title": "عرض الترجمة",
+  "title": "عرض توضيحي للتعريب باستخدام جداول بيانات جوجل",
   "description": "تغيير اللغة",
   "chooseLanguage": "اختر اللغة",
   "english": "الإنجليزية",
   "hindi": "الهندية",
   "arabic": "العربية",
   "systemDefault": "استخدام لغة النظام",
-  "sampleTitle": "نص تجريبي",
-  "sampleParagraph": "هذه فقرة تجريبية لعرض الترجمة داخل التطبيق."
+  "sampleTitle": "كيف يعمل",
+  "sampleParagraph": "يقوم هذا بتشغيل أمر yarn syncTranslation، وبعد ذلك يتم تشغيل ملف LoadSheetTranslation والذي يقوم بتحميل البيانات من Google Sheet إلى مجلد googlesheetlocales كملفات JSON منفصلة لكل لغة.\nتُستخدم هذه الملفات بواسطة ملف googleSheetsI18n في شاشة GoogleSheetsLocalizationScreen."
 }

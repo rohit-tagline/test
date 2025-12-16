@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Provider, useDispatch, useSelector} from 'react-redux';
-import store from '../store/store';
-import {updatecurrentstep, resetForm} from '../store/formSlice';
+import store from '../reduxstore/store';
+import {updatecurrentstep, resetForm} from '../reduxstore/formSlice';
 import Step1 from '../components/wizard/Step1';
 import Step2 from '../components/wizard/Step2';
 import Step3 from '../components/wizard/Step3';

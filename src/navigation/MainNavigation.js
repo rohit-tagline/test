@@ -12,6 +12,8 @@ import LocalizationScreen from '../screens/LocalizationScreen';
 import GoogleSheetsLocalizationScreen from '../screens/GoogleSheetsLocalizationScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
 import WizardFormScreen from '../screens/WizardFormScreen';
+import MapboxScreen from '../screens/Mapbox/MapboxScreen';
+import MapboxNavigation from './MapboxNavigation';
 
 
 
@@ -87,6 +89,16 @@ const MainNavigation = () => {
       <Stack.Screen
         name="WizardFormScreen"
         component={WizardFormScreen}
+
+      />
+      <Stack.Screen
+        name="MapboxScreen"
+        component={MapboxScreen}
+
+      />
+      <Stack.Screen
+        name="MapboxFlow"
+        component={MapboxNavigation}
 
       />
     </Stack.Navigator>

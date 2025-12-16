@@ -77,6 +77,13 @@ const MainScreen = ({ navigation }) => {
           >
             <Text style={styles.buttonText}>Wizard Form Demo</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('MapboxScreen')}
+          >
+            <Text style={styles.buttonText}>MapBox Demo</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>

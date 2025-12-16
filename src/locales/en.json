@@ -6,8 +6,8 @@
   "hindi": "Hindi",
   "arabic": "Arabic",
   "systemDefault": "Use System Default",
-  "apply": "Apply",
-  "sampleParagraph": "This is a sample paragraph demonstrating localization in the app."
+  "How it Works": "How it Works",
+  "sampleParagraph": "This is uses the i18n file that uses the translation json files from the locales folder which are written and maintained by developer to demonstrate localization in the app."
 }
 
 

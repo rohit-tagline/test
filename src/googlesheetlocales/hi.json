@@ -1,11 +1,11 @@
 {
-  "title": "स्थानीयकरण डेमो",
+  "title": "गूगल शीट द्वारा स्थानीयकरण डेमो",
   "description": "भाषा बदलें",
   "chooseLanguage": "भाषा चुनें",
   "english": "अंग्रेज़ी",
   "hindi": "हिन्दी",
   "arabic": "अरबी",
   "systemDefault": "सिस्टम की भाषा उपयोग करें",
-  "sampleTitle": "नमूना पाठ",
-  "sampleParagraph": "यह ऐप में स्थानीयकरण प्रदर्शित करने के लिए एक नमूना अनुच्छेद है।"
+  "sampleTitle": "यह कैसे काम करता है",
+  "sampleParagraph": "यह yarn syncTranslation कमांड चलाता है, इसके बाद LoadSheetTranslation फ़ाइल रन होती है और Google Sheet से डेटा को googlesheetlocales फ़ोल्डर में प्रत्येक भाषा के लिए अलग-अलग JSON फ़ाइल के रूप में लोड करती है।\nइन फ़ाइलों का उपयोग googleSheetsI18n फ़ाइल द्वारा GoogleSheetsLocalizationScreen में किया जाता है।"
 }

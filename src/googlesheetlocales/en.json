@@ -1,11 +1,11 @@
 {
-  "title": "Localization Demo",
+  "title": "Localization Demo by Google Sheet",
   "description": "Change language below",
   "chooseLanguage": "Choose Language",
   "english": "English",
   "hindi": "Hindi",
   "arabic": "Arabic",
   "systemDefault": "Use System Default",
-  "sampleTitle": "sample Paragraph",
-  "sampleParagraph": "This is a sample paragraph demonstrating localization in the app."
+  "sampleTitle": "How it Works",
+  "sampleParagraph": "This is runs yarn syncTranslation command then the LoadSheetTranslation file runs and load googlesheet data in googlesheetlocales folder  as perticular language json file which are used by the googleSheetsI18n file for GoogleSheetsLocalizationScreen "
 }
