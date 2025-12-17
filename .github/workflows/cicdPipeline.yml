@@ -1,4 +1,4 @@
-name: Android CI Delivery (APK + AAB + Artifacts + Firebase)
+name: Android CI Delivery Pipeline
 
 on:
   push:
@@ -66,10 +66,13 @@ jobs:
           --app "${{ secrets.FIREBASE_APP_ID }}" \
           --testers "${{ secrets.FIREBASE_TESTERS }}"
 
+      # Uncomment the following lines to enable AAB upload to Firebase App Distribution 
+      # but it is requires atleast one build is uploaded to play console.
+
       # ---------- UPLOAD AAB ----------
-      - name: Upload AAB to Firebase App Distribution
-        run: |
-          firebase appdistribution:distribute \
-          android/app/build/outputs/bundle/release/app-release.aab \
-          --app "${{ secrets.FIREBASE_APP_ID }}" \
-          --testers "${{ secrets.FIREBASE_TESTERS }}"
+      # - name: Upload AAB to Firebase App Distribution
+      #   run: |
+      #     firebase appdistribution:distribute \
+      #     android/app/build/outputs/bundle/release/app-release.aab \
+      #     --app "${{ secrets.FIREBASE_APP_ID }}" \
+      #     --testers "${{ secrets.FIREBASE_TESTERS }}"

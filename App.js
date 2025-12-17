@@ -6,8 +6,8 @@ import MapboxNavigation from './src/navigation/MapboxNavigation';
 const App = () => {
   return (
     <NavigationContainer>
-      <MainNavigation />
-      {/* <MapboxNavigation /> */}
+      {/* <MainNavigation /> */}
+      <MapboxNavigation />
     </NavigationContainer>
   );
 };
