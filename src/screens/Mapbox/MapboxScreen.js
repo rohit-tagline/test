@@ -16,11 +16,12 @@ import Mapbox from '@rnmapbox/maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Geolocation from '@react-native-community/geolocation';
 import LinearGradient from 'react-native-linear-gradient';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { fontSizes } from '../../styles/typography';
 import Colors from '../../styles/colors';
 import { gradientProps } from '../../styles/layout';
 import useUserStore from '../../zustandstore/userStore';
-import { MAPBOX_ACCESS_TOKEN } from '../../config/apiKeys';
+import { MAPBOX_ACCESS_TOKEN, GOOGLE_PLACES_API_KEY } from '../../config/apiKeys';
 import LocationPermissionModal from '../../components/LocationPermissionModal';
 import {
   getDatabase,
@@ -53,9 +54,11 @@ const MapTrackingScreen = () => {
   const [mapStyleUrl, setMapStyleUrl] = useState(Mapbox.StyleURL.Street);
   const [showPermissionModal, setShowPermissionModal] = useState(false);
   const [snappedRouteCoords, setSnappedRouteCoords] = useState([]);
-
+  const [searchedLocation, setSearchedLocation] = useState(null);
+  const [showSearch, setShowSearch] = useState(false);
 
   const appState = useRef(AppState.currentState);
+  const searchAutocompleteRef = useRef(null);
 
   const cameraRef = useRef(null);
   const userId = useUserStore(state => state.userId);
@@ -116,6 +119,23 @@ const MapTrackingScreen = () => {
         ? Mapbox.StyleURL.SatelliteStreet
         : Mapbox.StyleURL.Street,
     );
+  };
+
+  const handlePlaceSelect = (data, details = null) => {
+    if (!details?.geometry?.location) return;
+    const { lat, lng } = details.geometry.location;
+    const coord = [lng, lat];
+    setSearchedLocation({ description: data.description, coordinates: coord });
+    setShowSearch(false);
+    
+    // Center map on selected location
+    if (cameraRef.current) {
+      cameraRef.current.setCamera({
+        centerCoordinate: coord,
+        zoomLevel: 16,
+        animationDuration: 800,
+      });
+    }
   };
 
   // Request permissions
@@ -463,6 +483,17 @@ const MapTrackingScreen = () => {
               </Mapbox.PointAnnotation>
             )}
 
+            {/* Searched Location Marker */}
+            {searchedLocation && (
+              <Mapbox.PointAnnotation
+                id="searched"
+                coordinate={searchedLocation.coordinates}
+                title={searchedLocation.description}
+              >
+                <View style={styles.markerSearched} />
+              </Mapbox.PointAnnotation>
+            )}
+
             {/* Live Polyline + breadcrumb points (snapped after session ends) */}
             {(snappedRouteCoords.length > 1 || routeCoords.length > 1) && (
               <Mapbox.ShapeSource
@@ -494,12 +525,54 @@ const MapTrackingScreen = () => {
             )}
           </Mapbox.MapView>
           <View style={styles.overlay}>
+            {showSearch && (
+              <View style={styles.searchContainer}>
+                <GooglePlacesAutocomplete
+                  ref={searchAutocompleteRef}
+                  placeholder="Search location"
+                  placeholderTextColor={Colors.textSecondary}
+                  fetchDetails
+                  onPress={handlePlaceSelect}
+                  GooglePlacesDetailsQuery={{ fields: 'geometry' }}
+                  query={{ 
+                    key: GOOGLE_PLACES_API_KEY, 
+                    language: 'en',
+                  }}
+                  currentLocation
+                  currentLocationLabel="Current location"
+                  styles={searchAutocompleteStyles}
+                  enablePoweredByContainer={false}
+                  debounce={300}
+                  minLength={2}
+                  listViewDisplayed={true}
+                  keepResultsAfterBlur={false}
+                  keyboardShouldPersistTaps="handled"
+                  textInputProps={{
+                    returnKeyType: 'search',
+                    placeholderTextColor: Colors.textSecondary,
+                  }}
+                />
+                <TouchableOpacity
+                  style={styles.closeSearchButton}
+                  onPress={() => {
+                    setShowSearch(false);
+                    searchAutocompleteRef.current?.setAddressText('');
+                  }}
+                >
+                  <Text style={styles.closeSearchText}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            )}
             <View style={styles.statusCard}>
               <Text style={styles.statusLabel}>Session</Text>
               <Text style={styles.statusValue}>
                 {isTracking ? 'Tracking in progress' : 'Idle'}
               </Text>
-              {currentLocation ? (
+              {searchedLocation ? (
+                <Text style={styles.coordinates}>
+                  {searchedLocation.description}
+                </Text>
+              ) : currentLocation ? (
                 <Text style={styles.coordinates}>
                   Lat {currentLocation[1].toFixed(4)} · Lng {currentLocation[0].toFixed(4)}
                 </Text>
@@ -516,6 +589,12 @@ const MapTrackingScreen = () => {
               </Text>
             </TouchableOpacity>
             <View style={styles.mapControlsRow}>
+              <TouchableOpacity
+                style={styles.controlButton}
+                onPress={() => setShowSearch(!showSearch)}
+              >
+                <Text style={styles.controlText}>Search</Text>
+              </TouchableOpacity>
               <TouchableOpacity
                 style={styles.controlButton}
                 onPress={centerOnCurrentLocation}
@@ -626,6 +705,104 @@ const styles = StyleSheet.create({
   controlText: {
     color: Colors.textPrimary,
     fontSize: fontSizes.xs,
+  },
+  markerSearched: {
+    width: 25,
+    height: 25,
+    borderRadius: 15,
+    backgroundColor: '#3b82f6',
+    borderWidth: 3,
+    borderColor: 'white',
+  },
+  searchContainer: {
+    marginBottom: 12,
+    position: 'relative',
+    zIndex: 1000,
+  },
+  closeSearchButton: {
+    position: 'absolute',
+    right: 8,
+    top: 8,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  closeSearchText: {
+    color: Colors.textPrimary,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
+
+const searchAutocompleteStyles = StyleSheet.create({
+  container: {
+    flex: 0,
+    zIndex: 1000,
+    elevation: 5,
+  },
+  textInputContainer: {
+    width: '100%',
+    backgroundColor: 'rgba(8, 7, 15, 0.95)',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
+    zIndex: 1000,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+  },
+  textInput: {
+    height: 44,
+    color: Colors.textPrimary,
+    fontSize: fontSizes.sm,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    backgroundColor: 'rgba(8, 7, 15, 0.95)',
+    borderWidth: 0,
+  },
+  listView: {
+    backgroundColor: 'rgba(8, 7, 15, 0.95)',
+    borderRadius: 12,
+    marginTop: 4,
+    elevation: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    maxHeight: 200,
+    zIndex: 1001,
+    position: 'absolute',
+    width: '100%',
+    top: 48,
+  },
+  row: {
+    padding: 12,
+    backgroundColor: 'rgba(8, 7, 15, 0.95)',
+    minHeight: 44,
+  },
+  separator: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+  },
+  description: {
+    color: Colors.textPrimary,
+    fontSize: fontSizes.sm,
+  },
+  predefinedPlacesDescription: {
+    color: Colors.textSecondary,
+    fontSize: fontSizes.xs,
+  },
+  poweredContainer: {
+    display: 'none',
+  },
+  powered: {
+    display: 'none',
   },
 });
 

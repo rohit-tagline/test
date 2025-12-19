@@ -6659,14 +6659,14 @@ react-native-gesture-handler@^2.24.0:
     hoist-non-react-statics "^3.3.0"
     invariant "^2.2.4"
 
-react-native-google-places-autocomplete@^2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/react-native-google-places-autocomplete/-/react-native-google-places-autocomplete-2.6.1.tgz#aca33353a71081ee4501a8d2301ed3a9a3171989"
-  integrity sha512-FWL/rYiSephC8PIbGIJ5/X/RmwhXze2hLmvJ5fquhhdKrI2Fr5kgF2RzhZJYFEGgNslbDY23B8ERLsycu5sWuw==
+react-native-google-places-autocomplete@2.5.6:
+  version "2.5.6"
+  resolved "https://registry.yarnpkg.com/react-native-google-places-autocomplete/-/react-native-google-places-autocomplete-2.5.6.tgz#94be31b17ed53ecf4a4a6670fd9acd7a46c2ff6d"
+  integrity sha512-Dy7mFKyEoiNeWPLd7HUkrI/SzJYe7GST55FGtiXzXDoPs05LYHIOCPrT9qFE51COh5X8kgDKm+f7D5aMY/aMbg==
   dependencies:
     lodash.debounce "^4.0.8"
+    prop-types "^15.7.2"
     qs "~6.9.1"
-    react-native-uuid "^2.0.3"
 
 react-native-image-picker@^7.2.3:
   version "7.2.3"
@@ -6692,11 +6692,6 @@ react-native-localize@^3.4.1:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/react-native-localize/-/react-native-localize-3.6.0.tgz#2927c7f8e77339c2201581f6d99eb78fa5c48121"
   integrity sha512-CByn67b9dPDBA7qvAx18PpXhuLqBbdTpedobGOUcjqiGuSAEXZzwas9ziMYSShAR2AvX2Cl7ePErCpj9V39Ctw==
-
-react-native-mmkv@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-mmkv/-/react-native-mmkv-4.0.1.tgz#076baaec4056f6027aabec21d5d233c57b91ede9"
-  integrity sha512-0JjO0U33b2hngFACsGwxoMCOZlCChP6R42aqvU85kXBaxY/kltSYr0FW9T6lkU3uEkE4IWMV1eLjoJplEY920w==
 
 react-native-modal-datetime-picker@^14.0.1:
   version "14.0.1"
@@ -6788,11 +6783,6 @@ react-native-swipe-gestures@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz#a172cb0f3e7478ccd681fd36b8bfbcdd098bde7c"
   integrity sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw==
-
-react-native-uuid@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/react-native-uuid/-/react-native-uuid-2.0.3.tgz#f85f8a8d68e52e3f1c18ba0f02ec7776f9d4a0da"
-  integrity sha512-f/YfIS2f5UB+gut7t/9BKGSCYbRA9/74A5R1MDp+FLYsuS+OSWoiM/D8Jko6OJB6Jcu3v6ONuddvZKHdIGpeiw==
 
 react-native@0.78.0:
   version "0.78.0"

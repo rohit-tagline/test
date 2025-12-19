@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  SafeAreaView,
   View,
   Text,
   StyleSheet,
@@ -10,6 +9,7 @@ import {
   Alert,
   TextInput,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Mapbox from '@rnmapbox/maps';
 import Geolocation from '@react-native-community/geolocation';
 import Colors from '../../styles/colors';
@@ -27,7 +27,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { MAPBOX_ACCESS_TOKEN, GOOGLE_PLACES_API_KEY } from '../../config/apiKeys';
 
 const PlanTourScreen = () => {
-  const [activeTab, setActiveTab] = useState('plan'); // 'plan' | 'myPlans'
+  const [activeTab, setActiveTab] = useState('plan'); // 'plan' | 'plans'
   const [startPlace, setStartPlace] = useState(null);
   const [endPlace, setEndPlace] = useState(null);
   const [plannedCoords, setPlannedCoords] = useState([]);
@@ -92,6 +92,15 @@ const PlanTourScreen = () => {
       setRouteError(null);
       const coords = await fetchDirections(startPlace.coordinates, endPlace.coordinates);
       setPlannedCoords(coords);
+      // Update camera to show the full route
+      if (coords.length > 0 && cameraRef.current) {
+        const midIndex = Math.floor(coords.length / 2);
+        cameraRef.current.setCamera({
+          centerCoordinate: coords[midIndex],
+          zoomLevel: 12,
+          animationDuration: 1000,
+        });
+      }
       setSaveModalVisible(true);
     } catch (error) {
       setRouteError(error.message);
@@ -146,6 +155,25 @@ const PlanTourScreen = () => {
     startAutocompleteRef.current?.setAddressText(startObj?.description || '');
     endAutocompleteRef.current?.setAddressText(endObj?.description || '');
     setPlanName(plan.name || '');
+    
+    // Update camera to show the loaded plan
+    setTimeout(() => {
+      if (plan.coordinates && plan.coordinates.length > 0 && cameraRef.current) {
+        const midIndex = Math.floor(plan.coordinates.length / 2);
+        cameraRef.current.setCamera({
+          centerCoordinate: plan.coordinates[midIndex],
+          zoomLevel: 12,
+          animationDuration: 800,
+        });
+      } else if ((startObj || endObj) && cameraRef.current) {
+        const coord = startObj?.coordinates || endObj?.coordinates;
+        cameraRef.current.setCamera({
+          centerCoordinate: coord,
+          zoomLevel: startObj && endObj ? 11 : 14,
+          animationDuration: 800,
+        });
+      }
+    }, 100);
   };
 
   const handleDeletePlan = async id => {
@@ -191,39 +219,100 @@ const PlanTourScreen = () => {
   );
 
   const renderPlanTab = () => (
-    <View style={styles.planContainer}>
+    <SafeAreaView style={styles.planContainer} edges={['bottom']}>
       <View style={styles.inputsColumn}>
         <Text style={styles.inputLabel}>From</Text>
-        <GooglePlacesAutocomplete
-          ref={startAutocompleteRef}
-          placeholder="Search start location"
-          fetchDetails
-          onPress={(data, details = null) => {
-            if (!details?.geometry?.location) return;
-            const { lat, lng } = details.geometry.location;
-            setStartPlace({ description: data.description, coordinates: [lng, lat] });
-          }}
-          GooglePlacesDetailsQuery={{ fields: 'geometry' }}
-          query={{ key: GOOGLE_PLACES_API_KEY, language: 'en' }}
-          currentLocation
-          currentLocationLabel="Current location"
-          styles={autocompleteStyles}
-        />
+        <View style={styles.autocompleteWrapper}>
+          <GooglePlacesAutocomplete
+            ref={startAutocompleteRef}
+            placeholder="Search start location"
+            placeholderTextColor={Colors.textSecondary}
+            fetchDetails
+            onPress={(data, details = null) => {
+              if (!details?.geometry?.location) return;
+              const { lat, lng } = details.geometry.location;
+              const coord = [lng, lat];
+              setStartPlace({ description: data.description, coordinates: coord });
+              // Update camera to show start location
+              if (cameraRef.current) {
+                cameraRef.current.setCamera({
+                  centerCoordinate: coord,
+                  zoomLevel: 14,
+                  animationDuration: 800,
+                });
+              }
+            }}
+            GooglePlacesDetailsQuery={{ fields: 'geometry' }}
+            query={{ 
+              key: GOOGLE_PLACES_API_KEY, 
+              language: 'en',
+            }}
+            currentLocation
+            currentLocationLabel="Current location"
+            styles={autocompleteStyles}
+            debounce={300}
+            minLength={2}
+            enablePoweredByContainer={false}
+            listViewDisplayed={true}
+            keepResultsAfterBlur={false}
+            keyboardShouldPersistTaps="handled"
+            textInputProps={{
+              returnKeyType: 'search',
+              placeholderTextColor: Colors.textSecondary,
+            }}
+          />
+        </View>
       </View>
       <View style={[styles.inputsColumn, { marginTop: 12 }]}>
         <Text style={styles.inputLabel}>To</Text>
-        <GooglePlacesAutocomplete
-          ref={endAutocompleteRef}
-          placeholder="Search destination"
-          fetchDetails
-          onPress={(data, details = null) => {
-            if (!details?.geometry?.location) return;
-            const { lat, lng } = details.geometry.location;
-            setEndPlace({ description: data.description, coordinates: [lng, lat] });
-          }}
-          query={{ key: GOOGLE_PLACES_API_KEY, language: 'en' }}
-          styles={autocompleteStyles}
-        />
+        <View style={styles.autocompleteWrapper}>
+          <GooglePlacesAutocomplete
+            ref={endAutocompleteRef}
+            placeholder="Search destination"
+            placeholderTextColor={Colors.textSecondary}
+            fetchDetails
+            onPress={(data, details = null) => {
+              if (!details?.geometry?.location) return;
+              const { lat, lng } = details.geometry.location;
+              const coord = [lng, lat];
+              setEndPlace({ description: data.description, coordinates: coord });
+              // Update camera to show end location or both if start is set
+              if (cameraRef.current) {
+                if (startPlace?.coordinates) {
+                  // Center between start and end
+                  const midLat = (startPlace.coordinates[1] + lat) / 2;
+                  const midLng = (startPlace.coordinates[0] + lng) / 2;
+                  cameraRef.current.setCamera({
+                    centerCoordinate: [midLng, midLat],
+                    zoomLevel: 12,
+                    animationDuration: 800,
+                  });
+                } else {
+                  cameraRef.current.setCamera({
+                    centerCoordinate: coord,
+                    zoomLevel: 14,
+                    animationDuration: 800,
+                  });
+                }
+              }
+            }}
+            query={{ 
+              key: GOOGLE_PLACES_API_KEY, 
+              language: 'en',
+            }}
+            styles={autocompleteStyles}
+            debounce={300}
+            minLength={2}
+            enablePoweredByContainer={false}
+            listViewDisplayed={true}
+            keepResultsAfterBlur={false}
+            keyboardShouldPersistTaps="handled"
+            textInputProps={{
+              returnKeyType: 'search',
+              placeholderTextColor: Colors.textSecondary,
+            }}
+          />
+        </View>
       </View>
       <TouchableOpacity style={styles.previewButton} onPress={handlePreviewRoute} disabled={isFetchingRoute}>
         <Text style={styles.previewLabel}>Show route</Text>
@@ -238,11 +327,43 @@ const PlanTourScreen = () => {
         <Mapbox.MapView style={styles.map} styleURL={mapStyleUrl}>
           <Mapbox.Camera
             ref={cameraRef}
-            centerCoordinate={plannedCoords[0] || [72.8777, 19.076]}
-            zoomLevel={plannedCoords.length ? 12 : 4}
+            centerCoordinate={
+              plannedCoords.length > 0
+                ? plannedCoords[Math.floor(plannedCoords.length / 2)]
+                : startPlace?.coordinates || endPlace?.coordinates || [72.8777, 19.076]
+            }
+            zoomLevel={
+              plannedCoords.length > 1
+                ? 12
+                : startPlace?.coordinates && endPlace?.coordinates
+                ? 11
+                : startPlace?.coordinates || endPlace?.coordinates
+                ? 14
+                : 4
+            }
           />
           {/* Show user's current location (blue dot) */}
           <Mapbox.UserLocation visible={true} />
+          {/* Start marker */}
+          {startPlace?.coordinates && (
+            <Mapbox.PointAnnotation
+              id="startMarker"
+              coordinate={startPlace.coordinates}
+              title="Start"
+            >
+              <View style={styles.startMarker} />
+            </Mapbox.PointAnnotation>
+          )}
+          {/* End marker */}
+          {endPlace?.coordinates && (
+            <Mapbox.PointAnnotation
+              id="endMarker"
+              coordinate={endPlace.coordinates}
+              title="End"
+            >
+              <View style={styles.endMarker} />
+            </Mapbox.PointAnnotation>
+          )}
           {plannedCoords.length > 1 && (
             <Mapbox.ShapeSource
               id="plannedRouteSource"
@@ -301,11 +422,11 @@ const PlanTourScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 
   const renderMyPlansTab = () => (
-    <View style={styles.myPlansContainer}>
+    <SafeAreaView style={styles.myPlansContainer} edges={['bottom']}>
       {plans.length === 0 ? (
         <Text style={styles.emptyText}>No plans saved yet.</Text>
       ) : (
@@ -326,11 +447,11 @@ const PlanTourScreen = () => {
           </TouchableOpacity>
         ))
       )}
-    </View>
+    </SafeAreaView>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       {renderTabsHeader()}
       {activeTab === 'plan' ? renderPlanTab() : renderMyPlansTab()}
       <Modal
@@ -445,6 +566,11 @@ const styles = StyleSheet.create({
   },
   inputsColumn: {
     marginBottom: 10,
+    zIndex: 1000,
+  },
+  autocompleteWrapper: {
+    zIndex: 1000,
+    elevation: 5,
   },
   inputLabel: {
     color: Colors.textSecondary,
@@ -453,11 +579,13 @@ const styles = StyleSheet.create({
   },
   previewButton: {
     alignSelf: 'flex-end',
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
     borderRadius: 999,
     backgroundColor: Colors.success,
     marginBottom: 12,
+    minWidth: 120,
+    alignItems: 'center',
   },
   previewLabel: {
     color: Colors.textPrimary,
@@ -505,12 +633,33 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     color: Colors.textSecondary,
+    textAlign: 'center',
+    marginTop: 40,
+    fontSize: fontSizes.md,
+  },
+  startMarker: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: '#10b981',
+    borderWidth: 3,
+    borderColor: 'white',
+  },
+  endMarker: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: '#ef4444',
+    borderWidth: 3,
+    borderColor: 'white',
   },
   planItem: {
     backgroundColor: Colors.card,
     padding: 16,
     borderRadius: 16,
     marginBottom: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
   },
   planTitle: {
     color: Colors.textPrimary,
@@ -532,10 +681,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   planDeleteButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     borderRadius: 999,
-    backgroundColor: 'rgba(255,255,255,0.06)',
+    backgroundColor: 'rgba(239, 68, 68, 0.2)',
   },
   planDeleteText: {
     color: Colors.danger,
@@ -562,16 +711,18 @@ const styles = StyleSheet.create({
   modalActionsRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 12,
+    marginTop: 16,
+    gap: 8,
   },
   modalInput: {
-    backgroundColor: Colors.card,
+    backgroundColor: 'rgba(255,255,255,0.1)',
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 10,
     color: Colors.textPrimary,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: 'rgba(255,255,255,0.2)',
+    marginBottom: 8,
   },
   styleModalBackdrop: {
     flex: 1,
@@ -597,13 +748,40 @@ const styles = StyleSheet.create({
     color: Colors.textPrimary,
     fontSize: fontSizes.sm,
   },
+  planActionButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    marginLeft: 8,
+    minWidth: 80,
+    alignItems: 'center',
+  },
+  planActionText: {
+    color: Colors.textPrimary,
+    fontSize: fontSizes.sm,
+    fontWeight: '600',
+  },
 });
 
 const autocompleteStyles = StyleSheet.create({
+  container: {
+    flex: 0,
+    zIndex: 1000,
+    elevation: 5,
+  },
   textInputContainer: {
     width: '100%',
     backgroundColor: Colors.card,
     borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
+    zIndex: 1000,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   },
   textInput: {
     height: 44,
@@ -611,23 +789,46 @@ const autocompleteStyles = StyleSheet.create({
     fontSize: fontSizes.sm,
     borderRadius: 12,
     paddingHorizontal: 12,
-    backgroundColor: 'transparent',
+    backgroundColor: Colors.card,
+    borderWidth: 0,
   },
   listView: {
     backgroundColor: Colors.card,
     borderRadius: 12,
     marginTop: 4,
-    elevation: 4,
+    elevation: 10,
     shadowColor: '#000',
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    maxHeight: 200,
+    zIndex: 1001,
+    position: 'absolute',
+    width: '100%',
+    top: 48,
   },
   row: {
     padding: 12,
+    backgroundColor: Colors.card,
+    minHeight: 44,
   },
   separator: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: 'rgba(255,255,255,0.1)',
+  },
+  description: {
+    color: Colors.textPrimary,
+    fontSize: fontSizes.sm,
+  },
+  predefinedPlacesDescription: {
+    color: Colors.textSecondary,
+    fontSize: fontSizes.xs,
+  },
+  poweredContainer: {
+    display: 'none',
+  },
+  powered: {
+    display: 'none',
   },
 });
 
