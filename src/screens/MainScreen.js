@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -7,9 +7,18 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
+import SimplePlacesAutocomplete from '../components/SimplePlacesAutocomplete';
 
 const MainScreen = ({ navigation }) => {
+  const [selectedPlace, setSelectedPlace] = useState(null);
+
+  const handlePlaceSelect = (place) => {
+    console.log('Selected place:', place);
+    setSelectedPlace(place);
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
@@ -42,6 +51,21 @@ const MainScreen = ({ navigation }) => {
           >
             <Text style={styles.buttonText}>Crashlytics</Text>
           </TouchableOpacity>
+
+          <View style={styles.searchContainer}>
+            <Text style={styles.sectionTitle}>Search Location</Text>
+            <SimplePlacesAutocomplete
+              onSelectPlace={handlePlaceSelect}
+              placeholder="Search for a place..."
+            />
+            {selectedPlace && (
+              <View style={styles.selectedPlaceContainer}>
+                <Text style={styles.selectedPlaceText}>
+                  Selected: {selectedPlace.description}
+                </Text>
+              </View>
+            )}
+          </View>
 
           <TouchableOpacity
             style={styles.button}
@@ -114,9 +138,34 @@ const styles = StyleSheet.create({
     color: '#666',
     marginBottom: 40,
   },
+  searchContainer: {
+    width: '100%',
+    paddingHorizontal: 20,
+    marginVertical: 20,
+    zIndex: 1000,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 10,
+  },
+  selectedPlaceContainer: {
+    marginTop: 15,
+    padding: 15,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 8,
+    borderLeftWidth: 4,
+    borderLeftColor: '#007AFF',
+  },
+  selectedPlaceText: {
+    fontSize: 16,
+    color: '#333',
+  },
   buttonContainer: {
     width: '100%',
-    alignItems: 'center',
+    paddingHorizontal: 20,
+    marginTop: 20,
   },
   button: {
     backgroundColor: '#007AFF',
