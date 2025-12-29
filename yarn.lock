@@ -2072,40 +2072,40 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-4.5.7.tgz#523178779f302aa162b0d57211842f81522e8ece"
   integrity sha512-WMDDZjNF2Bd8M8TrSqKf5xhM9ikdfCHtSPur64Ow3bB/OVrKufUQZ59NmYdNZNeGPvcHHTsafuYTY8zfZfbchQ==
 
-"@react-native-firebase/analytics@^23.4.1":
+"@react-native-firebase/analytics@23.5.0":
   version "23.5.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-23.5.0.tgz#c79e1222d26d65a963d44df44e9572903e86a0f2"
   integrity sha512-tLUVOB1dsrjFrh48OCMxS44MCn5OyOmE0Am1jPFoHsnDF1Rj61zXdn9POQjHAXPxsbZmZSP0opxIpdzfNULn7Q==
   dependencies:
     superstruct "^2.0.2"
 
-"@react-native-firebase/app@23.4.1":
-  version "23.4.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-23.4.1.tgz#00c836c6fc3f921de0fbe235362627ce73df8de6"
-  integrity sha512-AVxk9dS3plHjIUDWUlKSEAbKrEtGweLZXEMZpJokvLyNbeL1i4dDAUkDriPzjIEgtxaFX3rUxFuBRQvLHlsmAA==
+"@react-native-firebase/app@23.5.0":
+  version "23.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-23.5.0.tgz#b84540b1822e510dfd3c3890e8ca10b2655759fe"
+  integrity sha512-TOlm6V6fbILwgFP37QZM9Y0nfAW6zqNGVIWlMlepQB6b/BzzFMrCl1FiyknqD5l7i1jgdFQrqX1WH6ZO4ePa/g==
   dependencies:
     firebase "12.4.0"
 
-"@react-native-firebase/auth@^23.4.1":
+"@react-native-firebase/auth@23.5.0":
   version "23.5.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-23.5.0.tgz#e6b8f9fed6abfe75f13095f48eea1ea0609d3f7b"
   integrity sha512-lsOIHhvxtGe4dGfsCOwyFux+eGB9b1zaII0/tvrsJMhH7Gm77RxZA8VCGefDqw/UBU3YpQ395LXs997nNok0pQ==
   dependencies:
     plist "^3.1.0"
 
-"@react-native-firebase/crashlytics@^23.4.1":
+"@react-native-firebase/crashlytics@23.5.0":
   version "23.5.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-23.5.0.tgz#16ccc1ce2d39ec1734b11dcda7f7c177feb0b339"
   integrity sha512-+coTsJZFOkaF/1qVrv0QXr1js0788PCn6DvEgpnoiEy8jWJi5q8Rza5XWOLqRfkcqp1QsrmSxUFN22pWz8zGXw==
   dependencies:
     stacktrace-js "^2.0.2"
 
-"@react-native-firebase/messaging@23.4.1":
-  version "23.4.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-23.4.1.tgz#08b83eed9e2c5353e18851cd0ad0a19cd92c42ce"
-  integrity sha512-KeSfDMIz7rKu1zx3z1yCvfCB9FYaB6dt5ls5J5x4vZov+YeRvgAmHvoNrwRpgDUAM/AchU8aEI1M5LkrDx0p/Q==
+"@react-native-firebase/messaging@23.5.0":
+  version "23.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-23.5.0.tgz#8e39a44a90f7bf95a9a167649efa7f1e8251f9b7"
+  integrity sha512-2EM28isDWgqCauar/kOnhpFQZ8ARnq9iE0N093TrS/sr+Mu6PHkPEDJElV9LFfp6nfxxjlm75h+x+nJrEDRkhQ==
 
-"@react-native-firebase/remote-config@^23.4.1":
+"@react-native-firebase/remote-config@23.5.0":
   version "23.5.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/remote-config/-/remote-config-23.5.0.tgz#eb31e2e84112527ee67b20809243a04ec486ef55"
   integrity sha512-QAijAEe/+Bs0FRLoc0mKnic4R3fM00vw6FG/5dbKzw5jkxqoMTnO1Eesipjbo91LT0so4O+xxWNewflRdC4T1w==
@@ -2377,10 +2377,10 @@
     redux-thunk "^3.1.0"
     reselect "^5.1.0"
 
-"@rnmapbox/maps@^10.2.6":
-  version "10.2.8"
-  resolved "https://registry.yarnpkg.com/@rnmapbox/maps/-/maps-10.2.8.tgz#4b411f71b496ce0f74725c9089780499c0cd56b7"
-  integrity sha512-tNi9UbuK9bEEhXZdfoeOsAxaaGiJnQ58PBxYiam+XTivok1/oDl/62DCxHc8bovhhcTFEX4bUKThP+UHNud9vw==
+"@rnmapbox/maps@^10.2.10":
+  version "10.2.10"
+  resolved "https://registry.yarnpkg.com/@rnmapbox/maps/-/maps-10.2.10.tgz#5ba121ffd1017e5a5550e9d4829f53701e87ce87"
+  integrity sha512-OfjW0rHp5bUWfzBo5fZ7qdKwAzGoocXYTsSssSPVMxZ2Y7axuhcbmsO5bV6gg+BJs5RwEsghzwTIoGydBNUClA==
   dependencies:
     "@turf/along" "6.5.0"
     "@turf/distance" "6.5.0"

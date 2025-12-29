@@ -193,37 +193,11 @@ PODS:
     - MapboxCommon (= 24.16.6)
     - MapboxCoreMaps (= 11.16.6)
     - Turf (= 4.0.0)
-  - MMKVCore (2.2.4)
   - nanopb (3.30910.0):
     - nanopb/decode (= 3.30910.0)
     - nanopb/encode (= 3.30910.0)
   - nanopb/decode (3.30910.0)
   - nanopb/encode (3.30910.0)
-  - NitroMmkv (4.0.1):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - MMKVCore (= 2.2.4)
-    - NitroModules
-    - RCT-Folly (= 2024.11.18.00)
-    - RCTRequired
-    - RCTTypeSafety
-    - React-callinvoker
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - Yoga
   - NitroModules (0.31.10):
     - DoubleConversion
     - glog
@@ -1951,7 +1925,7 @@ PODS:
     - FirebaseAnalytics/IdentitySupport (= 12.4.0)
     - React-Core
     - RNFBApp
-  - RNFBApp (23.4.1):
+  - RNFBApp (23.5.0):
     - Firebase/CoreOnly (= 12.4.0)
     - React-Core
   - RNFBAuth (23.5.0):
@@ -1963,7 +1937,7 @@ PODS:
     - FirebaseCoreExtension
     - React-Core
     - RNFBApp
-  - RNFBMessaging (23.4.1):
+  - RNFBMessaging (23.5.0):
     - Firebase/Messaging (= 12.4.0)
     - FirebaseCoreExtension
     - React-Core
@@ -2037,13 +2011,13 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - rnmapbox-maps (10.2.8):
+  - rnmapbox-maps (10.2.10):
     - MapboxMaps (~> 11.16.2)
     - React
     - React-Core
-    - rnmapbox-maps/DynamicLibrary (= 10.2.8)
+    - rnmapbox-maps/DynamicLibrary (= 10.2.10)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.2.8):
+  - rnmapbox-maps/DynamicLibrary (10.2.10):
     - DoubleConversion
     - hermes-engine
     - MapboxMaps (~> 11.16.2)
@@ -2266,7 +2240,6 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
-  - NitroMmkv (from `../node_modules/react-native-mmkv`)
   - NitroModules (from `../node_modules/react-native-nitro-modules`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
@@ -2381,7 +2354,6 @@ SPEC REPOS:
     - MapboxCommon
     - MapboxCoreMaps
     - MapboxMaps
-    - MMKVCore
     - nanopb
     - PromisesObjC
     - PromisesSwift
@@ -2409,8 +2381,6 @@ EXTERNAL SOURCES:
     :tag: hermes-2025-01-13-RNv0.78.0-a942ef374897d85da38e9c8904574f8376555388
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
-  NitroMmkv:
-    :path: "../node_modules/react-native-mmkv"
   NitroModules:
     :path: "../node_modules/react-native-nitro-modules"
   RCT-Folly:
@@ -2613,9 +2583,7 @@ SPEC CHECKSUMS:
   MapboxCommon: 10cbf74edb23c9abcfe2424899d804f288a47334
   MapboxCoreMaps: f19680d20681797067268284b2292349de861730
   MapboxMaps: 04c7bf46d66265ad0f4b98484a251777a926c423
-  MMKVCore: f2dd4c9befea04277a55e84e7812f930537993df
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
-  NitroMmkv: 60923271fcea61af85416a680825c54696a1f54c
   NitroModules: e48791e3fb7ba9552854e2568cf8c5e45f44543f
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
@@ -2687,15 +2655,15 @@ SPEC CHECKSUMS:
   RNDateTimePicker: 21fbf94479a551f0e50d37e662febe03e16b7012
   RNDeviceInfo: 36d7f232bfe7c9b5c494cb7793230424ed32c388
   RNFBAnalytics: 3b2503534454382973877bf0c5ee8daa20643204
-  RNFBApp: 4d2d631b593081c39565f67403f90b188c0f22f7
+  RNFBApp: 78d866e12b98c79b7cb141fcdcdf9813eae09b15
   RNFBAuth: a05c02d5b47251b04a6c74b686053e81e2ba783a
   RNFBCrashlytics: e41685c8869fa6c5b156bd9bd04578bc10af654e
-  RNFBMessaging: 50ae400edc5874bde8720104cdfc4b898be07479
+  RNFBMessaging: e16ebeae1f64f57603a193f1be6f3be7ab55c5e4
   RNFBRemoteConfig: 853b1d5a4ea0a91cbfacdc6622474a3c68b19165
   RNGestureHandler: 4fb6e090f571a15cae471f53005aea43d771acd2
   RNGoogleSignin: e87845be12741ccb321c8b73a5b5db313acfffd7
   RNLocalize: a73aa3bb5448df8862dcbcd8499a275c28d693ec
-  rnmapbox-maps: 6ae98024d3f90a39bb136d0b12c99c85dd285091
+  rnmapbox-maps: 9b11b9b99c5ef5741f7bd384116ee7508b493cec
   RNNotifee: 5e3b271e8ea7456a36eec994085543c9adca9168
   RNPermissions: de6a95ffc17e1e05931817beed6b38a37af57fd3
   RNReanimated: cb31d32d5e1544b556747ead6e108682eccb148b
@@ -2704,6 +2672,6 @@ SPEC CHECKSUMS:
   Turf: c9eb11a65d96af58cac523460fd40fec5061b081
   Yoga: be02ca501b03c79d7027a6bbbd0a8db985034f11
 
-PODFILE CHECKSUM: 4396a97d8f57b957b2a19924ae39dc3b9079e0b1
+PODFILE CHECKSUM: 101fb5d821b402e3acf70d81fe0c20577b7e1b75
 
 COCOAPODS: 1.16.2
